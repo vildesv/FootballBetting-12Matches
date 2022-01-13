@@ -1,0 +1,43 @@
+﻿Koden under lar brukeren holde oversikt over alle 12 kampene på en tippekupong. 
+Den bruker klassen Match fra forrige oppgave (Tippekupong - 1 kamp): 
+
+    Console.Write("Gyldig tips: \r\n - H, U, B\r\n - halvgardering: HU, HB, UB\r\n - helgardering: HUB\r\nSkriv inn dine 12 tips med komma mellom: ");
+    var betsText = Console.ReadLine();
+    var bets = betsText.Split(',');
+    var matches = new Match[12];
+    for (var i = 0; i < 12; i++)
+    {
+        matches[i] = new Match(bets[i]);
+    }
+
+    while (true)
+    {
+        Console.Write("Skriv kampnr. 1-12 for scoring eller X for alle kampene er ferdige\r\nAngi kommando: ");
+        var command = Console.ReadLine();
+        if (command == "X") break;
+        var matchNo = Convert.ToInt32(command);
+        Console.Write($"Scoring i kamp {matchNo}. \r\nSkriv H for hjemmelag eller B for bortelag: ");
+        var team = Console.ReadLine();
+        var selectedIndex = matchNo - 1;
+        var selectedMatch = matches[selectedIndex];
+        selectedMatch.AddGoal(team == "H");
+        var correctCount = 0;
+        for (var index = 0; index < matches.Length; index++)
+        {
+            var match = matches[index];
+            var mathNo = index + 1;
+            var isBetCorrect = match.IsBetCorrect();
+            var isBetCorrectText = isBetCorrect ? "riktig" : "feil";
+            if (isBetCorrect) correctCount++;
+            Console.WriteLine($"Kamp {matchNo}: {match.GetScore()} - {isBetCorrectText}");
+        }
+
+        Console.WriteLine($"Du har {correctCount} rette.");
+    }
+
+--- OPPGAVE ---
+
+Din oppgave er å innføre en ny klasse for en tippekupong. 
+Den kan f.eks. hete TwelveMatches. 
+Om du trenger hint, se på hvordan kode ble flyttet ut til en ny klasse i forrige oppgave. 
+En annen måte å få et hint på er å gå inn i løsningsforslaget og kun se på koden i Program.cs - da ser du hvordan den nye klassen er tenkt brukt.
